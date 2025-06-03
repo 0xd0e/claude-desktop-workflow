@@ -277,4 +277,352 @@ project-root/
 
 ---
 
+# MCP Installation Guide
+## Expert Pair Programming Assistant
+
+This guide provides step-by-step instructions for installing all Model Context Protocol (MCP) tools required for the Expert Pair Programming Assistant to function at full capacity.
+
+## 🎯 Prerequisites
+
+- **Claude Desktop Application** installed
+- **Node.js 18+** installed on your system
+- **npm** or **yarn** package manager
+- **Git** for cloning repositories
+- Basic terminal/command line knowledge
+
+## 📋 Required MCP Tools Overview
+
+| MCP Tool | Purpose | Installation Method | Required |
+|----------|---------|-------------------|----------|
+| Filesystem | File operations & project exploration | Built-in | ✅ Essential |
+| Context7 | Latest library documentation | npm install | ✅ Essential |
+| Supabase | Database & project management | npm install | ✅ Essential* |
+| Browser | Frontend testing & debugging | npm install | ✅ Essential |
+| Command Execution | Build commands & scripts | Built-in | ✅ Essential |
+| Analysis Tool (REPL) | Complex calculations | Built-in | 🔶 Optional |
+| Web Search | Research & documentation | Built-in | 🔶 Optional |
+
+*Required if using Supabase in your projects
+
+## 🚀 Installation Instructions
+
+### Step 1: Access Claude Desktop MCP Settings
+
+1. Open **Claude Desktop**
+2. Click on your profile/settings (usually in top-right corner)
+3. Navigate to **"Developer"** or **"MCP Settings"**
+4. Look for **"Model Context Protocol"** configuration
+
+### Step 2: Configure Built-in MCPs
+
+The following MCPs are built into Claude Desktop and should be enabled by default:
+
+#### ✅ Filesystem MCP
+- **Status**: Built-in and enabled
+- **Functions**: `read_file`, `write_file`, `list_directory`, `search_files`
+- **No installation required**
+
+#### ✅ Command Execution MCP  
+- **Status**: Built-in and enabled
+- **Functions**: `execute_command`, `get_command_history`
+- **No installation required**
+
+#### ✅ Analysis Tool (REPL)
+- **Status**: Built-in and enabled
+- **Functions**: JavaScript execution environment
+- **No installation required**
+
+#### ✅ Web Search
+- **Status**: Built-in and enabled  
+- **Functions**: `web_search`, `web_fetch`
+- **No installation required**
+
+### Step 3: Install External MCPs
+
+#### 🔧 Context7 MCP
+
+**Purpose**: Access latest library documentation
+
+```bash
+# Install Context7 MCP server
+npm install -g @context7/mcp-server
+
+# Or using yarn
+yarn global add @context7/mcp-server
+```
+
+**Configuration in Claude Desktop:**
+```json
+{
+  "context7": {
+    "command": "npx",
+    "args": ["@context7/mcp-server"],
+    "env": {}
+  }
+}
+```
+
+#### 🗄️ Supabase MCP
+
+**Purpose**: Database operations and project management
+
+```bash
+# Install Supabase MCP server
+npm install -g @supabase/mcp-server
+
+# Or using yarn
+yarn global add @supabase/mcp-server
+```
+
+**Configuration in Claude Desktop:**
+```json
+{
+  "supabase": {
+    "command": "npx",
+    "args": ["@supabase/mcp-server"],
+    "env": {
+      "SUPABASE_ACCESS_TOKEN": "your_supabase_access_token"
+    }
+  }
+}
+```
+
+**Setup Supabase Access Token:**
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Navigate to **Settings** → **Access Tokens**
+3. Create a new token with appropriate permissions
+4. Add token to your environment variables
+
+#### 🌐 Browser MCP
+
+**Purpose**: Frontend testing and web automation
+
+```bash
+# Install Browser MCP server (using Playwright)
+npm install -g @browser/mcp-server
+
+# Or using yarn
+yarn global add @browser/mcp-server
+```
+
+**Configuration in Claude Desktop:**
+```json
+{
+  "browser": {
+    "command": "npx",
+    "args": ["@browser/mcp-server"],
+    "env": {}
+  }
+}
+```
+
+**Install Browser Dependencies:**
+```bash
+# Install Playwright browsers
+npx playwright install
+
+# Install Chromium specifically
+npx playwright install chromium
+```
+
+### Step 4: Complete MCP Configuration
+
+Your final Claude Desktop MCP configuration should look like this:
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["@context7/mcp-server"],
+      "env": {}
+    },
+    "supabase": {
+      "command": "npx", 
+      "args": ["@supabase/mcp-server"],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "your_supabase_access_token"
+      }
+    },
+    "browser": {
+      "command": "npx",
+      "args": ["@browser/mcp-server"],
+      "env": {}
+    }
+  }
+}
+```
+
+## 🔧 Environment Setup
+
+### Required Environment Variables
+
+Create a `.env` file or add to your system environment:
+
+```bash
+# Supabase Configuration
+SUPABASE_ACCESS_TOKEN=your_supabase_access_token
+SUPABASE_PROJECT_REF=your_project_reference
+
+# Optional: Browser Configuration
+BROWSER_HEADLESS=true
+BROWSER_SLOWMO=100
+```
+
+### System Requirements
+
+- **Memory**: 8GB+ RAM recommended
+- **Storage**: 2GB+ free space for browser dependencies
+- **Network**: Stable internet connection for documentation fetching
+- **OS**: Windows 10+, macOS 10.15+, or Linux
+
+## ✅ Verification & Testing
+
+### Step 1: Restart Claude Desktop
+1. Close Claude Desktop completely
+2. Restart the application
+3. Wait for MCP tools to initialize
+
+### Step 2: Test Built-in MCPs
+
+Ask Claude to test built-in functionality:
+
+```
+Can you list the current directory and show me the available MCP tools?
+```
+
+### Step 3: Test External MCPs
+
+#### Test Context7:
+```
+Search for React documentation using Context7
+```
+
+#### Test Supabase:
+```
+List my Supabase projects
+```
+
+#### Test Browser:
+```
+Take a screenshot of google.com
+```
+
+### Step 4: Verify Expert Assistant Workflow
+
+Test the complete workflow:
+
+```
+I want to create a new React component. Follow your standard workflow process.
+```
+
+Expected response: Assistant should read memory.md, analyze context, create a plan, and wait for approval.
+
+## 🚨 Troubleshooting
+
+### Common Issues & Solutions
+
+#### MCP Server Not Found
+```bash
+# Reinstall globally
+npm uninstall -g @context7/mcp-server
+npm install -g @context7/mcp-server
+
+# Clear npm cache
+npm cache clean --force
+```
+
+#### Permission Errors
+```bash
+# Fix npm permissions (Unix/macOS)
+sudo chown -R $(whoami) ~/.npm
+
+# Or use yarn instead
+yarn global add @context7/mcp-server
+```
+
+#### Supabase Authentication Failed
+1. Verify your access token is valid
+2. Check token permissions in Supabase dashboard
+3. Ensure token is correctly set in environment variables
+
+#### Browser MCP Issues
+```bash
+# Reinstall Playwright
+npm uninstall -g @browser/mcp-server
+npm install -g @browser/mcp-server
+npx playwright install --force
+```
+
+#### Claude Desktop Not Recognizing MCPs
+1. Check MCP configuration JSON syntax
+2. Restart Claude Desktop
+3. Check system logs for error messages
+4. Verify all npm packages are installed globally
+
+### Debug Commands
+
+```bash
+# Check global npm packages
+npm list -g --depth=0
+
+# Test MCP servers manually
+npx @context7/mcp-server --help
+npx @supabase/mcp-server --help
+npx @browser/mcp-server --help
+
+# Check Claude Desktop logs (location varies by OS)
+# macOS: ~/Library/Logs/Claude/
+# Windows: %APPDATA%/Claude/logs/
+# Linux: ~/.local/share/Claude/logs/
+```
+
+## 🔄 Updates & Maintenance
+
+### Regular Updates
+```bash
+# Update all MCP servers
+npm update -g @context7/mcp-server
+npm update -g @supabase/mcp-server  
+npm update -g @browser/mcp-server
+
+# Update browser dependencies
+npx playwright install
+```
+
+### Monthly Maintenance
+- Review and update Supabase access tokens
+- Clear browser cache and temporary files
+- Update Claude Desktop to latest version
+- Test all MCP functionality
+
+## 📚 Additional Resources
+
+### Documentation Links
+- [MCP Specification](https://spec.modelcontextprotocol.io/)
+- [Claude Desktop MCP Guide](https://docs.anthropic.com/en/docs/build-with-claude/mcp)
+- [Context7 Documentation](https://context7.com/docs)
+- [Supabase MCP Documentation](https://supabase.com/docs/mcp)
+- [Playwright Documentation](https://playwright.dev/docs)
+
+### Community Support
+- [MCP Community Discord](https://discord.gg/mcp)
+- [Claude Developer Forums](https://community.anthropic.com/)
+- [GitHub Issues for specific MCP servers](https://github.com/search?q=mcp-server)
+
+## ✨ Success Indicators
+
+You'll know the installation is successful when:
+
+✅ Claude can read and modify files in your project
+✅ Claude can fetch latest library documentation via Context7
+✅ Claude can manage Supabase projects and databases
+✅ Claude can navigate websites and take screenshots
+✅ Claude follows the 5-step workflow with memory management
+✅ All MCP tools respond without errors
+
+---
+
+**Note**: Some MCP servers may have different installation methods or package names. Always check the official documentation for the most up-to-date installation instructions.
+
 **Remember**: This assistant is designed to be your collaborative partner, not just a code generator. It maintains project context, follows best practices, and ensures every implementation aligns with your project's goals and standards.
